@@ -1,17 +1,15 @@
-# XGBoost on Ray-on-heata
+# XGBoost demo on Heata with Ray
 
-1. Install ray
-```
-pip install ray
-```
+1. **[Click here to sign up for the Heata Ray beta](https://www.heata.co/ray-sign-up)**
 
-2. Signup for the Ray-on-heata beta https://www.heata.co/ray-sign-up
+2. **Set up Ray and use your credentials to connect to your cluster** as described on the [Heata Ray Dashboard](https://www.heata.co/ray-dashboard).
 
-3. Use the credentials to connect to your cluster and submit the job
+3. **Submit your job** with:
+    ```
+    ray job submit --runtime-env-json '{"pip": "./requirements.txt"}' --working-dir . -- python xgboost-example.py
+    ```
 
-```
-export RAY_ADDRESS='https://ray.heata.co/jobs'
-export RAY_JOB_HEADERS='{"Authorization": "Bearer $YOUR_API_TOKEN"}'
+---
+**Any issues?** Please email [techsupport@heata.co](mailto:techsupport@heata.co)
 
-ray job submit --runtime-env-json '{"pip": "./requirements.txt"}'  --working-dir . -- python xgboost-example.py
-```
+..and, of course, 🙏 **thanks!**

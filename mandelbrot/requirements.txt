@@ -1,0 +1,6 @@
+numpy>=1.24
+pillow>=10
+google-cloud-storage>=2.10
+imageio>=2.37
+av>=15.0
+matplotlib>=3.7

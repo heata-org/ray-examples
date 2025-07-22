@@ -15,12 +15,12 @@ import secrets
 from google.cloud import storage
 
 # ----------------------- CONFIG ---------------------------------
-N_FRAMES      = 300           # total frames (≈ 1 h on 2×16-core nodes @ ~5-10 fps/core)
+N_FRAMES      = 100           # total frames (≈ 1 h on 2×16-core nodes @ ~5-10 fps/core)
 IMG_SIZE      = 1024          # square image (px)
 MAX_ITER      = 3000          # iterations per pixel
-CENTER        = (-0.74364388703, 0.13182590421)  # well-known Valley
+CENTER        = (-0.743643887036, 0.131825904207)  # well-known Valley
 START_SCALE   = 3.0           # width of view at frame 0
-END_SCALE     = 3e-12         # width of view at final frame
+END_SCALE     = 6e-11         # width of view at final frame
 # ----------------------------------------------------------------
 
 
@@ -83,7 +83,7 @@ def render_frame(idx: int, job_secret_key: str) -> str:
     else:
         norm = iters / mi                      # 0‥1
 
-    cmap = matplotlib.colormaps["turbo"]       # or "inferno", "magma", …
+    cmap = matplotlib.colormaps["turbo"]   # or "brg", "inferno", "magma", …
 
     rgb = (cmap(norm)[..., :3] * 255).astype(np.uint8)  # strip α, scale
     Image.fromarray(rgb).save(
@@ -118,11 +118,11 @@ def download_all_from_gcp(job_secret_key: str):
     bucket = storage_client.bucket(BUCKET_NAME)
 
     # Ensure output directory exists
-    os.makedirs(".." / OUT_DIR, exist_ok=True)
+    os.makedirs(OUT_DIR, exist_ok=True)
     
     for i in range(N_FRAMES):
         blob_name = f"outputs/{job_secret_key}/frame_{i:04d}.png"
-        local_file = ".." / OUT_DIR / Path(blob_name).name
+        local_file = OUT_DIR / Path(blob_name).name
         print(f"Downloading {blob_name} to {local_file}")
         blob = bucket.blob(blob_name)
         blob.download_to_filename(str(local_file))

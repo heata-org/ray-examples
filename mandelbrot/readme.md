@@ -13,6 +13,8 @@
 
 5. **Download the frames** with:
     ```
+    pip install -r .\requirements.txt
+    
     python -c "import mandelbrot_zoom as m; m.download_all_from_gcp('<JOB_SECRET_KEY>')"
     ```
 

@@ -15,7 +15,7 @@ import secrets
 from google.cloud import storage
 
 # ----------------------- CONFIG ---------------------------------
-N_FRAMES      = 100           # total frames (≈ 1 h on 2×16-core nodes @ ~5-10 fps/core)
+N_FRAMES      = 32            # total frames (each frame spawns a separate task, which take around 6 minutes)
 IMG_SIZE      = 1024          # square image (px)
 MAX_ITER      = 3000          # iterations per pixel
 CENTER        = (-0.743643887036, 0.131825904207)  # well-known Valley

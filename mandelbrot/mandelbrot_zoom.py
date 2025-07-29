@@ -25,15 +25,14 @@ END_SCALE     = 6e-11         # width of view at final frame
 
 
 OUT_DIR       = Path("frames")
-BUCKET_NAME   = "heata-example-store"  # GCP bucket name for storing outputs
-KEY_PATH = Path(__file__).parent / "heata-demo-key.json"
+BUCKET_NAME   = "heata-public-demo-assets"  # GCP bucket name for storing outputs
 
 
 """
 Uploads a file to a GCP bucket using a service account key.
 """
 def _upload_to_gcp(local_file: Path, dest_blob: str):
-    storage_client = storage.Client.from_service_account_json(str(KEY_PATH))
+    storage_client = storage.Client.create_anonymous_client()
     bucket = storage_client.bucket(BUCKET_NAME)
     blob = bucket.blob(dest_blob)
     blob.upload_from_filename(str(local_file))
@@ -114,7 +113,7 @@ def download_all_from_gcp(job_secret_key: str):
     """
     Downloads all frames from the GCP bucket to the local directory.
     """
-    storage_client = storage.Client.from_service_account_json(str(KEY_PATH))
+    storage_client = storage.Client.create_anonymous_client()
     bucket = storage_client.bucket(BUCKET_NAME)
 
     # Ensure output directory exists
@@ -138,14 +137,16 @@ def main():
     # Generate a unique secret key for this job, this is used to create a unique folder in GCP bucket which others cannot find
     job_secret_key = secrets.token_hex(16)
 
+    print()
+    print(f"To download all frames after the job is done, run: python -c \"import mandelbrot_zoom as m; m.download_all_from_gcp('{job_secret_key}')\"")
+
+
     # Render frames in parallel
     tasks = [render_frame.remote(i, job_secret_key) for i in range(N_FRAMES)]
     for msg in ray.get(tasks):
         print(msg)
 
 
-    print()
-    print(f"To download all frames after the job is done, run: python -c \"import mandelbrot_zoom as m; m.download_all_from_gcp('{job_secret_key}')\"")
 
 
 if __name__ == "__main__":

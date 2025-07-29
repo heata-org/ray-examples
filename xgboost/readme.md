@@ -6,7 +6,7 @@
 
 3. **Submit your job** with:
     ```
-    ray job submit --runtime-env-json '{\"pip\": \"./requirements.txt\"}' --working-dir . -- python xgboost-example.py
+    ray job submit --runtime-env runtime-env.yaml --working-dir . -- python xgboost-example.py
     ```
 
 ---

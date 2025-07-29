@@ -7,7 +7,7 @@
 3. **Submit your job** with:
 
     ```
-    ray job submit --runtime-env-json='{\"pip\": \"requirements.txt\"}' --no-wait --working-dir . -- python mandelbrot_zoom.py
+    ray job submit --runtime-env ./runtime-env.yaml --no-wait --working-dir . -- python mandelbrot_zoom.py
     ```
 4. **Wait** until done.. you can check with the commands output from the previous step. 
 
